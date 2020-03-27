@@ -8,10 +8,19 @@ var PORT = 8080;
 /*** SETUP ***/
 /*************/
 var express = require('express');
+const fs = require('fs');
 var http = require('http');
+var https = require('https');
 var bodyParser = require('body-parser')
 var main = express()
-var server = http.createServer(main)
+//var server = http.createServer(main);
+
+var server = https.createServer({
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+  }, main);
+
+
 var io  = require('socket.io').listen(server);
 //io.set('log level', 2);
 
