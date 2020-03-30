@@ -20,25 +20,26 @@
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
         <script>
             /** CONFIG **/
-            var SIGNALING_SERVER = "https://view-ff-ui-test.inmatesales.com";
-            var USE_AUDIO = true;
-            var USE_VIDEO = true;
-            var DEFAULT_CHANNEL = 'some-global-channel-name';
-            var MUTE_AUDIO_BY_DEFAULT = false;
+            //const SIGNALING_SERVER = "https://view-ff-ui-test.inmatesales.com";
+            const SIGNALING_SERVER = "172.20.4.35";
+            const USE_AUDIO = true;
+            const USE_VIDEO = true;
+            const DEFAULT_CHANNEL = 'some-global-channel-name';
+            const MUTE_AUDIO_BY_DEFAULT = false;
 
             /** You should probably use a different stun server doing commercial stuff **/
             /** Also see: https://gist.github.com/zziuni/3741933 **/
-            var ICE_SERVERS = [
+            const ICE_SERVERS = [
                 {url:"stun:stun.l.google.com:19302"}
             ];
         </script>
 
 
         <script>
-            var signaling_socket = null;   /* our socket.io connection to our webserver */
-            var local_media_stream = null; /* our own microphone / webcam */
-            var peers = {};                /* keep track of our peer connections, indexed by peer_id (aka socket.io id) */
-            var peer_media_elements = {};  /* keep track of our <video>/<audio> tags, indexed by peer_id */
+            let signaling_socket = null;   //  connection to web server 
+            let local_media_stream = null; //  our mic or webcam 
+            let peers = {};                //  track peer connections, indexed by peer_id (aka socket.io id)
+            let peer_media_elements = {};  //  track our <video>/<audio> tags, indexed by peer_id 
 
             function init() {
                 console.log("Connecting to signaling server");
@@ -46,17 +47,15 @@
                 signaling_socket = io();
 
                 signaling_socket.on('connect', function() {
-                    console.log("Connected to signaling server");
+                    console.log("Signaling server connection established [on connect]");
                     setup_local_media(function() {
-                        /* once the user has given us access to their
-                         * microphone/camcorder, join the channel and start peering up */
+                        /* User has given us access to their microphone/cam, join the channel and start peering up */
                         join_chat_channel(DEFAULT_CHANNEL, {'whatever-you-want-here': 'stuff'});
                     });
                 });
                 signaling_socket.on('disconnect', function() {
-                    console.log("Disconnected from signaling server");
-                    /* Tear down all of our peer connections and remove all the
-                     * media divs when we disconnect */
+                    console.log("Disconnected from signaling server [on disconnect]");
+                    // Remove media HTML divs and peer connections when we disconnect
                     for (peer_id in peer_media_elements) {
                         peer_media_elements[peer_id].remove();
                     }
@@ -76,14 +75,14 @@
 
 
                 /** 
-                * When we join a group, our signaling server will send out 'addPeer' events to each pair
-                * of users in the group (creating a fully-connected graph of users, ie if there are 6 people
-                * in the channel you will connect directly to the other 5, so there will be a total of 15 
-                * connections in the network). 
+                * When joining a group, signaling server sends 'addPeer' events. Each pair of uses in the group
+                * receive addPeer msgs. (creating a fully-connected graph of users).  If there are 6 people
+                * in the channel you will be connected directly to 5 others, so there will be a total of 15 
+                * connections in the network.  [5 + 4 + 3 + 2 + 1]
                 */
                 signaling_socket.on('addPeer', function(config) {
-                    console.log('Signaling server said to add peer:', config);
-                    var peer_id = config.peer_id;
+                    console.log('Signaling server addPeer msg:', config);
+                    let peer_id = config.peer_id;
                     if (peer_id in peers) {
                         /* This could happen if the user joins multiple channels where the other peer is also in. */
                         console.log("Already connected to peer ", peer_id);
@@ -217,8 +216,8 @@
                  * all the peer sessions.
                  */
                 signaling_socket.on('removePeer', function(config) {
-                    console.log('Signaling server said to remove peer:', config);
-                    var peer_id = config.peer_id;
+                    console.log('Signaling server sent removePeer:', config);
+                    const peer_id = config.peer_id;
                     if (peer_id in peer_media_elements) {
                         peer_media_elements[peer_id].remove();
                     }
@@ -261,7 +260,7 @@
                     function(stream) { /* user accepted access to a/v */
                         console.log("Access granted to audio/video");
                         local_media_stream = stream;
-                        var local_media = USE_VIDEO ? $("<video>") : $("<audio>");
+                        const local_media = USE_VIDEO ? $("<video>") : $("<audio>");
                         local_media.attr("autoplay", "autoplay");
                         local_media.attr("muted", "true"); /* always mute ourselves by default */
                         local_media.attr("controls", "");
