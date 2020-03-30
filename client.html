@@ -263,12 +263,24 @@
                     function(stream) { /* user accepted access to a/v */
                         console.log("Access granted to audio/video");
                         local_media_stream = stream;
-                        const local_media = USE_VIDEO ? $("<video>") : $("<audio>");
-                        local_media.attr("autoplay", "autoplay");
-                        local_media.attr("muted", "true"); /* always mute ourselves by default */
-                        local_media.attr("controls", "");
-                        $('body').append(local_media);
-                        attachMediaStream(local_media[0], stream);
+
+
+                        // const local_media = USE_VIDEO ? $("<video>") : $("<audio>");
+                        // local_media.attr("autoplay", "autoplay");
+                        // local_media.attr("muted", "true"); /* always mute ourselves by default */
+                        // local_media.attr("controls", "");
+                        // $('body').append(local_media);
+
+                        const local_media = document.createElement(USE_VIDEO ? 'video' : 'audio');
+                        local_media.setAttribute('autoplay', 'true');
+                        local_media.setAttribute('muted', 'true');
+                        local_media.setAttribute('controls', '');
+
+
+                        document.querySelector('body').appendChild(local_media);
+
+                      //  attachMediaStream(local_media[0], stream);
+                        attachMediaStream(local_media, stream);
 
                         if (callback) callback();
                     },
