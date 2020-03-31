@@ -112,18 +112,7 @@
                     }
                     peer_connection.onaddstream = function(event) {
                         console.log("onAddStream", event);
-                        // var remote_media = USE_VIDEO ? $("<video>") : $("<audio>");
-                        // remote_media.attr("autoplay", "autoplay");
-                        // if (MUTE_AUDIO_BY_DEFAULT) {
-                        //     remote_media.attr("muted", "true");
-                        // }
-                        // remote_media.attr("controls", "");
-                        // peer_media_elements[peer_id] = remote_media;
-                        // $('body').append(remote_media);
-                        // attachMediaStream(remote_media[0], event.stream);
-
-
-
+    
                         const remote_media = document.createElement(USE_VIDEO ? 'video' : 'audio');
                         remote_media.setAttribute('autoplay', 'true');
                         if (MUTE_AUDIO_BY_DEFAULT) {
@@ -133,14 +122,6 @@
                         peer_media_elements[peer_id] = remote_media;
                         document.querySelector('body').appendChild(remote_media);
                         attachMediaStream(remote_media, event.stream);
-
-
-
-
-
-
-
-
 
                     }
 
@@ -255,8 +236,6 @@
             }
 
 
-
-
             /***********************/
             /** Local media stuff **/
             /***********************/
@@ -285,12 +264,6 @@
                         console.log("Access granted to audio/video");
                         local_media_stream = stream;
 
-                        // const local_media = USE_VIDEO ? $("<video>") : $("<audio>");
-                        // local_media.attr("autoplay", "autoplay");
-                        // local_media.attr("muted", "true"); /* always mute ourselves by default */
-                        // local_media.attr("controls", "");
-                        // $('body').append(local_media);
-
                         const local_media = document.createElement(USE_VIDEO ? 'video' : 'audio');
                         local_media.setAttribute('autoplay', 'true');
                         local_media.setAttribute('muted', 'true');
@@ -317,3 +290,20 @@
         -->
     </body>
 </html>
+    <!-- var remote_media = USE_VIDEO ? $("<video>") : $("<audio>");
+    // remote_media.attr("autoplay", "autoplay");
+    // if (MUTE_AUDIO_BY_DEFAULT) {
+    //     remote_media.attr("muted", "true");
+    // }
+    // remote_media.attr("controls", "");
+    // peer_media_elements[peer_id] = remote_media;
+    // $('body').append(remote_media);
+    // attachMediaStream(remote_media[0], event.stream); -->
+
+    <!-- // const local_media = USE_VIDEO ? $("<video>") : $("<audio>");
+        // local_media.attr("autoplay", "autoplay");
+        // local_media.attr("muted", "true"); /* always mute ourselves by default */
+        // local_media.attr("controls", "");
+        // $('body').append(local_media); -->
+
+        
