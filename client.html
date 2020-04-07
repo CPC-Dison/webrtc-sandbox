@@ -22,7 +22,7 @@
             /** CONFIG **/
             //const SIGNALING_SERVER = "https://view-ff-ui-test.inmatesales.com";
          //   const SIGNALING_SERVER = "172.20.4.35";
-            const SIGNALING_SERVER = "https://192.168.1.131:8080";       
+            const SIGNALING_SERVER = "https://10.253.1.199:8080";       
         
 
             const USE_AUDIO = true;
@@ -47,7 +47,7 @@
             function init() {
                 console.log("Connecting to signaling server");
                 signaling_socket = io(SIGNALING_SERVER);
-                signaling_socket = io();
+              //  signaling_socket = io();
 
                 signaling_socket.on('connect', function() {
                     console.log("Signaling server connection established [on connect]");
