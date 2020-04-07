@@ -16,8 +16,8 @@ var main = express()
 //var server = http.createServer(main);
 
 var server = https.createServer({
-    key: fs.readFileSync('server.key'),
-    cert: fs.readFileSync('server.cert')
+    key: fs.readFileSync('inmatesales.com.key'),
+    cert: fs.readFileSync('inmatesales.com.crt')
   }, main);
 
 
